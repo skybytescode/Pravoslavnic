@@ -1,0 +1,234 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Pravoslavnic//Ceasurile zilei//RO
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Pravoslavnic
+X-WR-TIMEZONE:Europe/Chisinau
+BEGIN:VTIMEZONE
+TZID:Europe/Chisinau
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0300
+TZNAME:EEST
+DTSTART:19970330T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0300
+TZOFFSETTO:+0200
+TZNAME:EET
+DTSTART:19971026T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:01-miezonoptica@pravoslavnic.skybytescode.github.io
+DTSTAMP:20261016T203844Z
+DTSTART;TZID=Europe/Chisinau:20261016T000000
+DURATION:PT5M
+RRULE:FREQ=DAILY
+SUMMARY:☦ Miezonoptica
+DESCRIPTION:Miezonoptica — https://skybytescode.github.io/Pravoslavnic/co
+ ntent/01-miezonoptica.html
+URL:https://skybytescode.github.io/Pravoslavnic/content/01-miezonoptica.htm
+ l
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Miezonoptica în 5 minute
+TRIGGER:-PT5M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:02-utrenia@pravoslavnic.skybytescode.github.io
+DTSTAMP:20261016T203844Z
+DTSTART;TZID=Europe/Chisinau:20261016T050000
+DURATION:PT15M
+RRULE:FREQ=DAILY
+SUMMARY:☦ Utrenia
+DESCRIPTION:Utrenia — https://skybytescode.github.io/Pravoslavnic/content
+ /02-utrenia.html
+URL:https://skybytescode.github.io/Pravoslavnic/content/02-utrenia.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Utrenia în 5 minute
+TRIGGER:-PT5M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:03-ceasul-1@pravoslavnic.skybytescode.github.io
+DTSTAMP:20261016T203844Z
+DTSTART;TZID=Europe/Chisinau:20261016T060000
+DURATION:PT10M
+RRULE:FREQ=DAILY
+SUMMARY:☦ Ceasul Întâi
+DESCRIPTION:Ceasul Întâi — https://skybytescode.github.io/Pravoslavnic/
+ content/03-ceasul-1.html
+URL:https://skybytescode.github.io/Pravoslavnic/content/03-ceasul-1.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Ceasul Întâi în 5 minute
+TRIGGER:-PT5M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:04-mijloceasul-1@pravoslavnic.skybytescode.github.io
+DTSTAMP:20261016T203844Z
+DTSTART;TZID=Europe/Chisinau:20261016T073000
+DURATION:PT10M
+RRULE:FREQ=DAILY
+SUMMARY:☦ Mijloceasul Întâi
+DESCRIPTION:Mijloceasul Întâi — https://skybytescode.github.io/Pravosla
+ vnic/content/04-mijloceasul-1.html
+URL:https://skybytescode.github.io/Pravoslavnic/content/04-mijloceasul-1.ht
+ ml
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Mijloceasul Întâi în 5 minute
+TRIGGER:-PT5M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:05-ceasul-3@pravoslavnic.skybytescode.github.io
+DTSTAMP:20261016T203844Z
+DTSTART;TZID=Europe/Chisinau:20261016T090000
+DURATION:PT10M
+RRULE:FREQ=DAILY
+SUMMARY:☦ Ceasul al treilea
+DESCRIPTION:Ceasul al treilea — https://skybytescode.github.io/Pravoslavn
+ ic/content/05-ceasul-3.html
+URL:https://skybytescode.github.io/Pravoslavnic/content/05-ceasul-3.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Ceasul al treilea în 5 minute
+TRIGGER:-PT5M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:06-mijloceasul-3@pravoslavnic.skybytescode.github.io
+DTSTAMP:20261016T203844Z
+DTSTART;TZID=Europe/Chisinau:20261016T103000
+DURATION:PT5M
+RRULE:FREQ=DAILY
+SUMMARY:☦ Mijloceasul al treilea
+DESCRIPTION:Mijloceasul al treilea — https://skybytescode.github.io/Pravo
+ slavnic/content/06-mijloceasul-3.html
+URL:https://skybytescode.github.io/Pravoslavnic/content/06-mijloceasul-3.ht
+ ml
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Mijloceasul al treilea în 5 minute
+TRIGGER:-PT5M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:07-ceasul-6@pravoslavnic.skybytescode.github.io
+DTSTAMP:20261016T203844Z
+DTSTART;TZID=Europe/Chisinau:20261016T120000
+DURATION:PT15M
+RRULE:FREQ=DAILY
+SUMMARY:☦ Ceasul al șaselea
+DESCRIPTION:Ceasul al șaselea — https://skybytescode.github.io/Pravoslav
+ nic/content/07-ceasul-6.html
+URL:https://skybytescode.github.io/Pravoslavnic/content/07-ceasul-6.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Ceasul al șaselea în 5 minute
+TRIGGER:-PT5M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:08-mijloceasul-6@pravoslavnic.skybytescode.github.io
+DTSTAMP:20261016T203844Z
+DTSTART;TZID=Europe/Chisinau:20261016T133000
+DURATION:PT5M
+RRULE:FREQ=DAILY
+SUMMARY:☦ Mijloceasul al șaselea
+DESCRIPTION:Mijloceasul al șaselea — https://skybytescode.github.io/Prav
+ oslavnic/content/08-mijloceasul-6.html
+URL:https://skybytescode.github.io/Pravoslavnic/content/08-mijloceasul-6.ht
+ ml
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Mijloceasul al șaselea în 5 minute
+TRIGGER:-PT5M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:09-ceasul-9@pravoslavnic.skybytescode.github.io
+DTSTAMP:20261016T203844Z
+DTSTART;TZID=Europe/Chisinau:20261016T150000
+DURATION:PT10M
+RRULE:FREQ=DAILY
+SUMMARY:☦ Ceasul al nouălea
+DESCRIPTION:Ceasul al nouălea — https://skybytescode.github.io/Pravoslav
+ nic/content/09-ceasul-9.html
+URL:https://skybytescode.github.io/Pravoslavnic/content/09-ceasul-9.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Ceasul al nouălea în 5 minute
+TRIGGER:-PT5M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:10-mijloceasul-9@pravoslavnic.skybytescode.github.io
+DTSTAMP:20261016T203844Z
+DTSTART;TZID=Europe/Chisinau:20261016T163000
+DURATION:PT10M
+RRULE:FREQ=DAILY
+SUMMARY:☦ Mijloceasul al nouălea
+DESCRIPTION:Mijloceasul al nouălea — https://skybytescode.github.io/Prav
+ oslavnic/content/10-mijloceasul-9.html
+URL:https://skybytescode.github.io/Pravoslavnic/content/10-mijloceasul-9.ht
+ ml
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Mijloceasul al nouălea în 5 minute
+TRIGGER:-PT5M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:11-vecernia@pravoslavnic.skybytescode.github.io
+DTSTAMP:20261016T203844Z
+DTSTART;TZID=Europe/Chisinau:20261016T180000
+DURATION:PT10M
+RRULE:FREQ=DAILY
+SUMMARY:☦ Vecernia
+DESCRIPTION:Vecernia — https://skybytescode.github.io/Pravoslavnic/conten
+ t/11-vecernia.html
+URL:https://skybytescode.github.io/Pravoslavnic/content/11-vecernia.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Vecernia în 5 minute
+TRIGGER:-PT5M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:12-pavecernita@pravoslavnic.skybytescode.github.io
+DTSTAMP:20261016T203844Z
+DTSTART;TZID=Europe/Chisinau:20261016T210000
+DURATION:PT15M
+RRULE:FREQ=DAILY
+SUMMARY:☦ Pavecernița mică
+DESCRIPTION:Pavecernița mică — https://skybytescode.github.io/Pravoslav
+ nic/content/12-pavecernita.html
+URL:https://skybytescode.github.io/Pravoslavnic/content/12-pavecernita.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Pavecernița mică în 5 minute
+TRIGGER:-PT5M
+END:VALARM
+END:VEVENT
+END:VCALENDAR

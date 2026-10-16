@@ -22,6 +22,14 @@ dintr-un singur document sursă: `Repository/Ceasurile.docx`.
 | 18:00 | Vecernia               |
 | 21:00 | Pavecernița mică       |
 
+## Calendar cu alarme
+
+`docs/pravoslavnic.ics` conține cele 12 slujbe ca evenimente zilnice, fiecare
+cu o alarmă cu 5 minute înainte (utilă pe iPhone, unde aplicația web nu poate
+programa notificări). Se importă deschizând
+<https://skybytescode.github.io/Pravoslavnic/pravoslavnic.ics> și apăsând
+**Add All**. Regenerare după schimbarea programului: `python3 gen_calendar.py`.
+
 ## Reconstruire după modificarea textului
 
 ```sh
