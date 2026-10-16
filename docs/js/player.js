@@ -262,6 +262,29 @@
     deferredInstallPrompt = null;
   });
 
+  // ── Keep the screen on ───────────────────────────────────────────────────
+  // Holds a Screen Wake Lock while the player is visible so the phone doesn't
+  // dim mid-prayer. The browser drops the lock whenever the tab is hidden, so
+  // it's re-requested on return. Some browsers only grant it after a user
+  // gesture, so the first tap/click retries too. No-op where unsupported.
+  let wakeLock = null;
+  async function requestWakeLock() {
+    if (!("wakeLock" in navigator) || wakeLock || document.visibilityState !== "visible") return;
+    try {
+      wakeLock = await navigator.wakeLock.request("screen");
+      wakeLock.addEventListener("release", () => { wakeLock = null; });
+    } catch (err) {
+      console.warn("Pravoslavnic: wake lock unavailable", err);
+    }
+  }
+  document.addEventListener("visibilitychange", requestWakeLock);
+  document.addEventListener("pointerdown", requestWakeLock, { passive: true });
+  // Taps on the text land in the (same-origin) content iframe, not here.
+  frame.addEventListener("load", () => {
+    frame.contentDocument?.addEventListener("pointerdown", requestWakeLock, { passive: true });
+  });
+  requestWakeLock();
+
   // First render, then align to the next wall-clock second so the seconds in the status bar tick cleanly.
   tick();
   const msToNextSecond = 1000 - (new Date().getMilliseconds());
