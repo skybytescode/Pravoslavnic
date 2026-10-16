@@ -35,13 +35,77 @@ TYPO_FIXES = {
     # have "ca să" instead of "să", so the full phrase below is unique.
     "roagă-te lui Hristos Dumnezeu să mântuiască sufletele noastre":
         "rugați-vă lui Hristos Dumnezeu să mântuiască sufletele noastre",
+    # Vecernia: the quote opens with a Romanian „ but closed with an ASCII ",
+    # and the dash after it was a hyphen.
+    'veți fi iertați" -': "veți fi iertați” —",
+    # Prayer headings, made uniform across the services. Order matters: the
+    # longer variants with a trailing " :" go first.
+    "Rugăciunea aceasta a lui Mardarie:": "Rugăciunea Sfântului Mardarie",
+    "Rugăciune a Marelui Vasile :": "Rugăciunea Marelui Vasile",
+    "Rugăciunea Marelui Vasile :": "Rugăciunea Marelui Vasile",
+    "Rugăciune a Marelui Vasile": "Rugăciunea Marelui Vasile",
+    # Quotation marks: Romanian „…”. These general rules come last so the
+    # specific fixes above still see the source text.
+    '" Bucură-te" ,': "„Bucură-te”,",                      # Ceasul 6
+    ",,": "„",                                             # ,, typed as an opening quote
+    '"': "”",                                              # remaining ASCII quotes all close
 }
+
+# A space before , ; : ! ? lets the mark wrap onto a line of its own.
+SPACE_BEFORE_PUNCT = re.compile(r"[ \u00a0]+(?=[,;:!?])")
+
+# Paragraphs the source breaks mid-sentence, as (end of the first, start of
+# the next). When two adjacent text blocks match a pair they're joined into
+# one, keeping the first block's kind and each part's run formatting.
+JOIN_PARAGRAPHS = [
+    ("Preacuratei Maicii Sale, ale",    "preacuvioșilor"),           # Mijloceasul 9
+    ("tuturor sfinților, să",           "ne miluiască"),             # Mijloceasul 9
+    ("Împăratul și Dumnezeul",          "nostru!"),                  # Vecernia
+    ("veți fi iertați” —",              "iată, Doamne, eu iert"),    # Vecernia
+    ("de cei ce se scoală",             "asupra mea izbăvește-mă"),  # Vecernia
+    ("lăudat și preaslăvit",            "este numele Tău în veci"),  # Vecernia
+    ("precum am",                       "nădăjduit întru Tine"),     # Vecernia
+    ("mila Ta este în veac; lucrurile", "mânilor Tale"),             # Vecernia
+    ("acum și pururea și în vecii",     "vecilor. Amin."),           # Vecernia
+    ("îndreptările Tale. Binecuvântat ești", "Sfinte, luminează-ne"),   # Vecernia
+    ("Ție se cuvine cântare,",          "Ție slavă se cuvine"),      # Vecernia
+    ("Doamne Iisuse Hristoase, Fiul lui", "Dumnezeu, miluiește-ne"),  # Vecernia
+]
+
+TEXT_KINDS = ("p", "h2", "h3")
+
+# Quotations that close with ” but whose opening „ is missing in the source.
+# Matched only at the start of a paragraph that has the closing mark, since
+# the same words also occur unquoted inside longer texts (e.g. Psalm 50).
+OPEN_QUOTE_AT = (
+    "Sfânt, Sfânt, Sfânt este Domnul Savaot",          # Ceasul 6 (Isaia 6, 3)
+    "Dați deci Cezarului",                             # Mijloceasul 6
+    "Că de ai fi voit jertfă",                         # Mijloceasul 6
+)
+
+
+def add_missing_open_quotes(blocks):
+    for block in blocks:
+        runs = block.get("runs")
+        if not runs:
+            continue
+        text = _block_text(block)
+        if text.startswith(OPEN_QUOTE_AT) and "”" in text and "„" not in text:
+            runs[0]["text"] = "„" + runs[0]["text"]
+    return blocks
+
+
+# Romanian ș/ț take a comma below; the source mixes in the legacy cedilla
+# forms (ş/ţ), which some fonts draw differently. Normalised before the typo
+# fixes so their keys only ever need the comma forms.
+CEDILLA_TO_COMMA = str.maketrans("şţŞŢ", "șțȘȚ")
 
 
 def _apply_typo_fixes(text):
+    text = text.translate(CEDILLA_TO_COMMA)
     for wrong, right in TYPO_FIXES.items():
         text = text.replace(wrong, right)
-    return text
+    return SPACE_BEFORE_PUNCT.sub("", text)
 
 
 def style_of(p):
@@ -144,6 +208,32 @@ def classify(p, runs):
     return "p"
 
 
+def _block_text(block):
+    return "".join(r["text"] for r in block.get("runs", []))
+
+
+def join_broken_paragraphs(blocks):
+    """Merge adjacent text blocks listed in JOIN_PARAGRAPHS into one."""
+    out = []
+    for block in blocks:
+        prev = out[-1] if out else None
+        if prev and prev.get("kind") in TEXT_KINDS and block.get("kind") in TEXT_KINDS:
+            head, tail = _block_text(prev).rstrip(), _block_text(block).lstrip()
+            if any(head.endswith(end) and tail.startswith(start) for end, start in JOIN_PARAGRAPHS):
+                prev["runs"][-1]["text"] = prev["runs"][-1]["text"].rstrip() + " "
+                runs = [dict(r) for r in block["runs"]]
+                runs[0]["text"] = runs[0]["text"].lstrip()
+                for run in runs:
+                    last = prev["runs"][-1]
+                    if all(last.get(k) == run.get(k) for k in ("bold", "italic", "color")):
+                        last["text"] += run["text"]
+                    else:
+                        prev["runs"].append(run)
+                continue
+        out.append(block)
+    return out
+
+
 def parse_file(xml_path):
     tree = ET.parse(xml_path)
     body = tree.getroot().find("w:body", NS)
@@ -161,6 +251,7 @@ def parse_file(xml_path):
         if a:
             block["align"] = a
         blocks.append(block)
+    blocks = add_missing_open_quotes(join_broken_paragraphs(blocks))
     while blocks and blocks[0].get("kind") == "spacer":
         blocks.pop(0)
     while blocks and blocks[-1].get("kind") == "spacer":
