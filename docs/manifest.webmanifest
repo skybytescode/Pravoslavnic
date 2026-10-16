@@ -1,0 +1,20 @@
+{
+  "name": "Pravoslavnic",
+  "short_name": "Pravoslavnic",
+  "description": "Player al rugăciunilor după ceasurile zilei (Europe/Chișinău).",
+  "lang": "ro",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#14172e",
+  "theme_color": "#3a4b8c",
+  "icons": [
+    {
+      "src": "css/chi-rho.png",
+      "sizes": "540x540",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
