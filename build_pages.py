@@ -233,6 +233,16 @@ def render_blocks(blocks, page_title):
     return "\n      ".join(out)
 
 
+def _render_nav(cls, prev_slug, prev_title, next_slug, next_title):
+    """Prev/next links between services; rendered above the title and again
+    after the text so neither end of a long page is a dead end."""
+    return f"""      <nav class="{cls}" aria-label="Navigare între ceasuri">
+        <a href="{prev_slug}.html" rel="prev">← {html.escape(prev_title)}</a>
+        <span class="spacer"></span>
+        <a href="{next_slug}.html" rel="next">{html.escape(next_title)} →</a>
+      </nav>"""
+
+
 def render_page(slot_time, slug, title, docx_stem, prev_slug, prev_title, next_slug, next_title):
     blocks = CONTENT.get(docx_stem)
     if blocks is None:
@@ -243,6 +253,8 @@ def render_page(slot_time, slug, title, docx_stem, prev_slug, prev_title, next_s
     if ending and "Sfârșitul" not in body_html:
         body_html += f'\n      <p class="page-ending">{html.escape(ending)}</p>'
     title_esc = html.escape(title)
+    nav_top = _render_nav("page__nav page__nav--top", prev_slug, prev_title, next_slug, next_title)
+    nav_bottom = _render_nav("page__nav", prev_slug, prev_title, next_slug, next_title)
     return f"""<!doctype html>
 <html lang="ro">
 <head>
@@ -257,6 +269,7 @@ def render_page(slot_time, slug, title, docx_stem, prev_slug, prev_title, next_s
 <body>
   <article class="page">
     <div class="page__inner">
+{nav_top}
       <div class="page__eyebrow">
         <span>Pravoslavnic</span>
         <span class="scheduled-time">{slot_time}</span>
@@ -267,11 +280,7 @@ def render_page(slot_time, slug, title, docx_stem, prev_slug, prev_title, next_s
       {body_html}
       </div>
       <div class="page__footer-mark" role="presentation" aria-hidden="true"></div>
-      <nav class="page__nav" aria-label="Navigare între ceasuri">
-        <a href="{prev_slug}.html" rel="prev">← {html.escape(prev_title)}</a>
-        <span class="spacer"></span>
-        <a href="{next_slug}.html" rel="next">{html.escape(next_title)} →</a>
-      </nav>
+{nav_bottom}
     </div>
   </article>
 </body>

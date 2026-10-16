@@ -279,6 +279,11 @@ body {
 }
 .page__nav a:hover { border-bottom-color: var(--accent); }
 .page__nav .spacer { flex: 1; }
+.page__nav--top {
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
 
 @media (max-width: 540px) {
   .page { padding: 0.5rem 0.25rem 2rem; }
