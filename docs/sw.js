@@ -1,5 +1,6 @@
 // Pravoslavnic service worker
-// 1) Caches site assets so the player works offline after the first load.
+// 1) Caches site assets so the player works offline after the first load
+//    (network first; the cache is only the offline fallback).
 // 2) Handles clicks on notifications scheduled via Notification Triggers
 //    (TimestampTrigger) by focusing the player or opening it.
 //
@@ -32,7 +33,11 @@ const ASSETS = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(ASSETS))
+    // cache: "reload" skips the browser's HTTP cache (GitHub Pages serves
+    // max-age=600), so a new version never re-caches the previous files.
+    caches.open(CACHE).then((cache) =>
+      cache.addAll(ASSETS.map((u) => new Request(u, { cache: "reload" })))
+    )
   );
   self.skipWaiting();
 });
@@ -55,13 +60,21 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(req.url);
   // Cross-origin (fonts.googleapis, fonts.gstatic) — let the browser handle it.
   if (url.origin !== self.location.origin) return;
+  // Network first, so a published update shows up on the next load; the
+  // cache is the offline fallback and is refreshed on every successful fetch.
   event.respondWith(
-    caches.match(req).then((cached) => cached || fetch(req).then((res) => {
-      // Opportunistically warm the cache for new pages we hadn't pre-listed.
-      const copy = res.clone();
-      caches.open(CACHE).then((cache) => cache.put(req, copy)).catch(() => {});
-      return res;
-    }).catch(() => cached))
+    (async () => {
+      const cache = await caches.open(CACHE);
+      try {
+        const res = await fetch(new Request(req.url, { cache: "no-cache" }));
+        if (res.ok) cache.put(req, res.clone()).catch(() => {});
+        return res;
+      } catch (err) {
+        const cached = await cache.match(req, { ignoreSearch: true });
+        if (cached) return cached;
+        throw err;
+      }
+    })()
   );
 });
 
