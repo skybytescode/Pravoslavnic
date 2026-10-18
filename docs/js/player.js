@@ -262,6 +262,49 @@
     deferredInstallPrompt = null;
   });
 
+  // ── Text size ────────────────────────────────────────────────────────────
+  // A−/A+ step through TEXT_SCALES; the choice is kept in localStorage, which
+  // the content pages read themselves on load (inline script in their <head>),
+  // so the size carries over to the next service and the next visit. Changes
+  // apply live to the open page, keeping the reader's place in the text.
+  const TEXT_SCALE_KEY = "pravoslavnic.textScale";
+  const TEXT_SCALES = [0.85, 1, 1.15, 1.3, 1.5, 1.75];
+  const smallerBtn = document.getElementById("text-smaller");
+  const largerBtn = document.getElementById("text-larger");
+
+  function storedTextScale() {
+    try {
+      const s = Number.parseFloat(localStorage.getItem(TEXT_SCALE_KEY));
+      return TEXT_SCALES.includes(s) ? s : 1;
+    } catch {
+      return 1;
+    }
+  }
+
+  function applyTextScale(scale) {
+    try { localStorage.setItem(TEXT_SCALE_KEY, String(scale)); } catch { /* private mode */ }
+    const doc = frame.contentDocument;
+    if (doc?.documentElement) {
+      const root = doc.scrollingElement || doc.documentElement;
+      const ratio = root.scrollHeight > 0 ? root.scrollTop / root.scrollHeight : 0;
+      doc.documentElement.style.setProperty("--text-scale", String(scale));
+      root.scrollTop = ratio * root.scrollHeight;
+    }
+    const i = TEXT_SCALES.indexOf(scale);
+    smallerBtn.disabled = i <= 0;
+    largerBtn.disabled = i >= TEXT_SCALES.length - 1;
+  }
+
+  function stepTextScale(delta) {
+    const i = TEXT_SCALES.indexOf(storedTextScale());
+    const next = TEXT_SCALES[Math.min(TEXT_SCALES.length - 1, Math.max(0, i + delta))];
+    applyTextScale(next);
+  }
+
+  smallerBtn.addEventListener("click", () => stepTextScale(-1));
+  largerBtn.addEventListener("click", () => stepTextScale(1));
+  applyTextScale(storedTextScale());
+
   // ── Keep the screen on ───────────────────────────────────────────────────
   // Holds a Screen Wake Lock while the player is visible so the phone doesn't
   // dim mid-prayer. The browser drops the lock whenever the tab is hidden, so

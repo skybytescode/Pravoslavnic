@@ -15,6 +15,10 @@
      Reused as 4 corner ornaments via background-image on .page__inner. */
   --star: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='none' stroke='%233a4b8c' stroke-width='2.2' stroke-linejoin='round'><polygon points='12,1 21.5,17.5 2.5,17.5'/><polygon points='21.5,6.5 12,23 2.5,6.5'/></g></svg>");
   --maxw:      62ch;
+  /* Reader's text size, set from the A−/A+ buttons (see player.js). Scales
+     both the body text and everything sized in rem on the content pages;
+     the player chrome never sets it, so the status bar stays put. */
+  --text-scale: 1;
   --font-display: "Cormorant Garamond", "Garamond", "Times New Roman", serif;
   --font-body:    "Lora", "Georgia", "Times New Roman", serif;
 }
@@ -23,11 +27,13 @@
 
 html, body { margin: 0; padding: 0; }
 
+html { font-size: calc(100% * var(--text-scale)); }
+
 body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body);
-  font-size: clamp(16px, 1.05vw + 12px, 20px);
+  font-size: calc(clamp(16px, 1.05vw + 12px, 20px) * var(--text-scale));
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -354,6 +360,10 @@ body.player {
   line-height: 1;
 }
 .fs-btn:hover { background: #1f2347; }
+.fs-btn:disabled { opacity: 0.35; cursor: default; background: transparent; }
+.text-btn { font-family: var(--font-display); font-weight: 700; min-width: 2.1rem; }
+/* Text-size, notification and fullscreen buttons wrap as one group. */
+.status-buttons { display: inline-flex; gap: 0.4rem; flex: 0 0 auto; }
 
 @media (max-width: 540px) {
   .status-bar { flex-wrap: wrap; font-size: 0.82rem; gap: 0.4rem; padding: 0.4rem 0.6rem; }
